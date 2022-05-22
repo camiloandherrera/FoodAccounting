@@ -56,7 +56,7 @@ public class LinkedList {
     }
 
     // Methods
-    // Method to insert a new Node
+    // Method to insert a new Node at the end
     public void insert(Integer value) {
         Node newNode = new Node(value);
         newNode.setNext(null);
@@ -72,10 +72,35 @@ public class LinkedList {
 
             last.setNext(newNode); // Inserts the New Node at the end
         }
+
         listSize++;
     }
 
-    // Method to remove a Node
+    // Method that inserts a Node at the front (push)
+    public void push(Integer value) {
+        Node newNode = new Node(value); // Creates new Node with the data to insert
+
+        newNode.setNext(head); // Sets the current head as the new Node's next Node
+        setHead(newNode); // Sets the new Node as the new head
+
+        listSize++;
+    }
+
+    // Method that inserts a Node after a given Node
+    public void insertAfter(Node previousNode, Integer newValue) {
+        if (previousNode == null) {
+            System.out.println("The Node cannot be null or empty");
+            return;
+        }
+
+        Node newNode = new Node(newValue); // Creates new Node with the data to insert
+        newNode.setNext(previousNode.getNext()); // Sets the previous Node's next as the new Node's next
+        previousNode.setNext(newNode); // Sets the new Node as the previous new next
+
+        listSize++;
+    }
+
+    // Method to remove a Node given a value
     public void remove(Integer value)
     {
         // Stores the head Node
@@ -101,7 +126,9 @@ public class LinkedList {
             if (currentNode == null) 
                 System.out.println(value + " not found");
              }
-        }
+
+        listSize--;
+    }
     
     // Method to remove a Node at a Position i
     public void removeAt(Integer index) {
@@ -135,12 +162,52 @@ public class LinkedList {
             // If the index is greater than the List's size, the current Node should be null
             if (currentNode == null) 
                 System.out.println(index + " position not found.");
+            
+            listSize--;
         }  
+    }
+    
+    // Finds a Node given its value
+    public boolean search(Integer value) {
+        Node current = head;
+        int position = 0;
+
+        while (current != null) {
+            if (current.getValue() == value) {
+                System.out.println("Node " + value + " found at index " + position);
+                return true;
+            }
+            current = current.getNext();
+            position++;
+        }
+
+        System.out.println("Node " + value + " not found");
+        return false;
+    }
+
+    // Finds a Node given a position/index
+    public Integer getKth(Integer index) {
+        Node current = head;
+        int position = 0;
+
+        while (current != null) {
+            if (position == index) { // Looks for the position count until it's equal as the given index
+
+                System.out.println("The node at index " + index + " contains a Node with value " + current.getValue());
+                return current.getValue();
+            }
+            position++;
+            current = current.getNext();
+        }
+
+        System.out.println("Node at index " + index + " not found; it doesn't exist");
+        return -1; // If a non-existent value is given, a neggative number is returned
     }
 
     public void printList() {
         Node current = head;
 
+        System.out.println("LinkedList size = " + listSize);
         System.out.println("LinkedList: ");
         // Traverses the LinkedList, printing the getValue() at the current Node, then moving on
         while (current != null) {
