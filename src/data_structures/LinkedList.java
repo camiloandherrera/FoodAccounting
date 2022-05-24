@@ -43,9 +43,9 @@ class Node {
 
 
 public class LinkedList {
-    private int listSize;
-    private Node head; 
-    private Node tail;
+    protected int listSize;
+    protected Node head; 
+    protected Node tail;
 
     // Default LinkedList constructor, creates an empty LinkedList
     public LinkedList() {
@@ -56,14 +56,16 @@ public class LinkedList {
     }
 
     // Methods
-    // Method to insert a new Node at the end
+    // Method to insert a new Node at the end (tail)
     public void insert(Integer value) {
         Node newNode = new Node(value);
         newNode.setNext(null);
 
         // If the List is empty, it'll make the New Node its head
-        if (head == null) 
+        if (head == null) {
             head = newNode;
+            makeTail(newNode);
+        }
         // Else it'll traverse till finding the last node, then insert the New Node there
         else {
             Node last = head;
@@ -71,6 +73,7 @@ public class LinkedList {
                 last = last.getNext();
 
             last.setNext(newNode); // Inserts the New Node at the end
+            makeTail(newNode);
         }
 
         listSize++;
@@ -82,6 +85,7 @@ public class LinkedList {
 
         newNode.setNext(head); // Sets the current head as the new Node's next Node
         setHead(newNode); // Sets the new Node as the new head
+        makeTail(newNode);
 
         listSize++;
     }
@@ -97,6 +101,7 @@ public class LinkedList {
         newNode.setNext(previousNode.getNext()); // Sets the previous Node's next as the new Node's next
         previousNode.setNext(newNode); // Sets the new Node as the previous new next
 
+        makeTail(newNode); // Checks if it's also the tail
         listSize++;
     }
 
@@ -121,7 +126,8 @@ public class LinkedList {
             if (currentNode != null) 
                 // If the value is at currentNode, remove currentNode from LinkedList
                 previous.setNext(currentNode.getNext());
-            
+            makeTail(previous); // Checks if it's also the tail
+
             // If value was not present in linked list, currentNode should be null
             if (currentNode == null) 
                 System.out.println(value + " not found");
@@ -137,8 +143,10 @@ public class LinkedList {
         Node previous = null;
  
         // If the index is 0, then head Node will be removed
-        if (index == 0 && currentNode != null)
+        if (index == 0 && currentNode != null) {
             head = currentNode.getNext();
+            tail = null;
+        }
 
         else {
             // If the index is higher than 0 but lower than the size of LinkedList
@@ -147,6 +155,7 @@ public class LinkedList {
             while (currentNode != null) {
                 if (counter == index) {
                     // Since the current Node is the searched position, remove it from the List
+                    makeTail(currentNode.getNext()); // Checks if it's also the tail
                     previous.setNext(currentNode.getNext());
                     break;
                 }
@@ -218,6 +227,12 @@ public class LinkedList {
 
     public boolean isEmpty() {
         return listSize == 0; // If listSize == 0, returns true
+    }
+
+    // If a Next pointer is null, the Node becomes the tail
+    public void makeTail(Node node) {
+        if (node.getNext() == null)
+            tail = node;
     }
 
     // Encapsulation implementation
