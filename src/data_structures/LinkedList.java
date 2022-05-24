@@ -7,7 +7,7 @@ class Node {
     private Node previous; // Pointer to the previous Node; null by default, used by DLL only
     // Constructors
     // Node's default constructor
-    public Node(Integer value) {
+    Node(Integer value) {
         this.value = value;
         previous = null;
         next = null;
