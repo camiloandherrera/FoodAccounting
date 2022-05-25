@@ -1,3 +1,5 @@
+package data_structures;
+
 public class DoublyLinkedList extends LinkedList {
 
     // Default DoublyLinkedList constructor, creates an empty LinkedList
