@@ -1,8 +1,13 @@
 package funcionalidades;
 
+import java.lang.reflect.Array;
 import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.PriorityQueue;
+import java.util.Random;
 
+// Clase que contiene los elementos de un pedido (turno)
 class Turno_temp {
     protected Integer numeroTurno;
     protected String usuario;
@@ -12,6 +17,17 @@ class Turno_temp {
     protected int numeroItems = 0;
 
     // Constructor
+    Turno_temp(Integer numeroTurno, String usuario, String direccion, String producto) {
+        this.numeroTurno = numeroTurno;
+        this.usuario = usuario;
+        this.direccion = direccion;
+        this.pedido[0] = producto; // Todo turno debe crearse primero on un producto inicial
+
+        if (this.pedido[0] != null)
+            numeroItems++;
+    }
+
+    // Métodos
     public void anadirItem(String item) {
         this.pedido[this.numeroItems] = item;
         this.numeroItems++;
@@ -54,27 +70,33 @@ class Turno_temp {
     }
 }
 
+// Clase para crear un Comparador personalizado para los Turnos
 class comparaTurno implements Comparator<Turno_temp>{
     protected Turno_temp turnoTemp;
+    int tipoOrden;
+
+    // Constructor
+    comparaTurno(int tipoOrden) {
+        this.tipoOrden = tipoOrden;
+    }
 
     // Método para comparar
     @Override
     public int compare(Turno_temp actual, Turno_temp otro) {
-        int tipoOrden = -1;
         switch(tipoOrden) {
             case 0: // Comparar turnos por su número (orden de llegada)
                 return actual.getNumeroTurno() - otro.getNumeroTurno();
             case 1: // Comparar número de items en el pedido
-                return actual.getNumeroTurno() - otro.getNumeroItems();
+                return actual.getNumeroItems() - otro.getNumeroItems();
             default:
-                return -1;
+                return actual.getNumeroTurno() - otro.getNumeroTurno();
         }
     }
 }
 
 public class ManejoTurnos_temp  {
     protected int numeroTurnos = 0; // Número de turnos totales
-    protected int tipoOrden = -1; // Para priorizar número de turnos vs tamaño del pedido
+    protected int tipoOrden; // Para priorizar número de turnos vs tamaño del pedido
 
     protected PriorityQueue <Turno_temp> colaTurnos; // Cola de Prioridad que almacenará los turnos
     
@@ -82,17 +104,107 @@ public class ManejoTurnos_temp  {
     // Constructor
     ManejoTurnos_temp(int tipoOrden) {
         // Define el tipo de orden de la cola (si se ordenará por turnos o tamaño del pedido)
+        this.tipoOrden = tipoOrden;
         switch(tipoOrden) {
             case 0: // Comparar turnos por su número (orden de llegada) (Más viejo sale primero)
-                colaTurnos = new PriorityQueue<>(new comparaTurno());
+                colaTurnos = new PriorityQueue<>(new comparaTurno(tipoOrden));
                 break;
             case 1: // Comparar número de items en el pedido (Más items sale primero)
-                colaTurnos = new PriorityQueue<>(new comparaTurno().reversed());
+                colaTurnos = new PriorityQueue<>(new comparaTurno(tipoOrden).reversed());
                 break;
-            default:
+            default: // Por defecto comparará orden de llegada
+                colaTurnos = new PriorityQueue<>(new comparaTurno(tipoOrden));
                 break;
         }
     }  
 
     // Métodos
+    public void anadir(Turno_temp turno) {
+        colaTurnos.add(turno);
+        numeroTurnos++;
+    }
+
+    public void remover() {
+        colaTurnos.poll();
+
+        Turno_temp arr[] = null;
+        colaTurnos.toArray(arr);
+
+        PriorityQueue <Turno_temp> colaNueva = new PriorityQueue<Turno_temp>();
+        colaNueva.addAll(colaTurnos);
+        colaTurnos = colaNueva;
+        numeroTurnos--;
+    }
+
+    public void imprimirColaTurnos() {
+        System.out.println("Número de turnos: " + numeroTurnos);
+        System.out.println("Turno raiz: " + colaTurnos.peek().getNumeroTurno());
+
+        // Atraviesa la cola de prioridad, imprimiendo el valor de cada nodo
+        /*for (Turno_temp nodo : colaTurnos) {
+            System.out.println("Turno " + nodo.getNumeroTurno() + " | Usuario: " + nodo.getUsuario() + " | Número de productos: " + nodo.getNumeroItems());
+        }*/
+
+        PriorityQueue <Turno_temp> colaTemp = colaTurnos;
+        List <Turno_temp> listaCola = new LinkedList<Turno_temp>();
+
+        for (Turno_temp turnosTmp : colaTemp) {
+            listaCola.add(turnosTmp);
+        }
+
+        for (Turno_temp turnosTmp : listaCola) {
+            System.out.println("Turno : " + turnosTmp.getNumeroTurno() + " | Usuario: " + turnosTmp.getUsuario() + " | Número de productos: " + turnosTmp.getNumeroItems());
+        }
+    }
+
+    // Encapsulamiento
+    public int getNumeroTurnos() {
+        return numeroTurnos;
+    }
+    public void setNumeroTurnos(int numeroTurnos) {
+        this.numeroTurnos = numeroTurnos;
+    }
+
+    public int getTipoOrden() {
+        return tipoOrden;
+    }
+    public void setTipoOrden(int tipoOrden) {
+        this.tipoOrden = tipoOrden;
+    }
+
+    public PriorityQueue<Turno_temp> getColaTurnos() {
+        return colaTurnos;
+    }
+    public void setColaTurnos(PriorityQueue<Turno_temp> colaTurnos) {
+        this.colaTurnos = colaTurnos;
+    }
+
+    // Main (debug)
+    public static void main(String[] args) {
+       ManejoTurnos_temp tipoA = new ManejoTurnos_temp(0);
+       ManejoTurnos_temp tipoB = new ManejoTurnos_temp(1);
+       ManejoTurnos_temp tipoC = new ManejoTurnos_temp(2);
+
+       for (Integer i = 0; i < 10; i++) {
+           Turno_temp turnoTemp = new Turno_temp(tipoA.numeroTurnos, "Usuario "+i.toString(), "Calle falsa "+i.toString(), "Comidita"+i.toString());
+           for (Integer j = 0; j < (Math.random() * (6 - 0) + 0); j++) {
+               turnoTemp.anadirItem(j.toString());
+           }
+           tipoA.anadir(turnoTemp);
+           tipoB.anadir(turnoTemp);
+           tipoC.anadir(turnoTemp);
+       }
+
+       System.out.println("Tipos de colas de turnos: 0 = orden de llegada, 1 = numero de items.");
+       System.out.println("Cola a, tipo " + tipoA.getTipoOrden() + ":");
+       tipoA.imprimirColaTurnos();
+
+       System.out.println("Cola b, tipo " + tipoB.getTipoOrden() + ":");
+       tipoB.imprimirColaTurnos();
+
+       System.out.println("Cola c, tipo " + tipoC.getTipoOrden() + ":");
+       tipoC.imprimirColaTurnos();
+    }
+
+    // Main
 }

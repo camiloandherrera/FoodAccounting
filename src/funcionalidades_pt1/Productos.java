@@ -1,4 +1,4 @@
-package funcionalidades;
+package funcionalidades_pt1;
 
 class NodoLista {
     private Turno valor; // Valor para guardar (un turno/cliente)

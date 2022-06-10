@@ -1,4 +1,4 @@
-package funcionalidades;
+package funcionalidades_pt1;
 class Turno {
     protected Integer numeroTurno;
     protected String usuario;
@@ -6,7 +6,7 @@ class Turno {
     protected String[] pedido = new String[100]; // Guarda los items del pedido
     protected int numeroItems = 0;
 
-    // Constructor
+    // Métodos
     public void anadirItem(String item) {
         this.pedido[this.numeroItems] = item;
         this.numeroItems++;
@@ -133,10 +133,10 @@ public class ManejoTurnos {
         NodoFila actual = frente;
 
         System.out.println("Tamaño de cola= " + tamanoCola);
-        System.out.println("Frente: ");
+        System.out.println("Frente: " + frente.getValor().getNumeroTurno());
         // Atraviesa la cola, imprimiendo el valor de cada nodo
         while (actual != null) {
-            System.out.print("Turno " + actual.getValor().getNumeroTurno() + " | Usuario: " + actual.getValor().getUsuario());
+            System.out.println("Turno " + actual.getValor().getNumeroTurno() + " | Usuario: " + actual.getValor().getUsuario());
             actual = actual.getSiguiente();
         }
     }
