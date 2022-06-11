@@ -1,11 +1,9 @@
 package funcionalidades;
 
-import java.lang.reflect.Array;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.PriorityQueue;
-import java.util.Random;
 
 // Clase que contiene los elementos de un pedido (turno)
 class Turno_temp {
@@ -88,13 +86,13 @@ class comparaTurno implements Comparator<Turno_temp>{
                 return actual.getNumeroTurno() - otro.getNumeroTurno();
             case 1: // Comparar número de items en el pedido
                 return actual.getNumeroItems() - otro.getNumeroItems();
-            default:
+            default: // Por defecto comparará orden de llegada
                 return actual.getNumeroTurno() - otro.getNumeroTurno();
         }
     }
 }
 
-public class ManejoTurnos_temp  {
+public class ManejoTurnos  {
     protected int numeroTurnos = 0; // Número de turnos totales
     protected int tipoOrden; // Para priorizar número de turnos vs tamaño del pedido
 
@@ -102,7 +100,7 @@ public class ManejoTurnos_temp  {
     
 
     // Constructor
-    ManejoTurnos_temp(int tipoOrden) {
+    ManejoTurnos(int tipoOrden) {
         // Define el tipo de orden de la cola (si se ordenará por turnos o tamaño del pedido)
         this.tipoOrden = tipoOrden;
         switch(tipoOrden) {
@@ -181,12 +179,13 @@ public class ManejoTurnos_temp  {
 
     // Main (debug)
     public static void main(String[] args) {
-       ManejoTurnos_temp tipoA = new ManejoTurnos_temp(0);
-       ManejoTurnos_temp tipoB = new ManejoTurnos_temp(1);
-       ManejoTurnos_temp tipoC = new ManejoTurnos_temp(2);
+        
+       ManejoTurnos tipoA = new ManejoTurnos(0);
+       ManejoTurnos tipoB = new ManejoTurnos(1);
+       ManejoTurnos tipoC = new ManejoTurnos(2);
 
        for (Integer i = 0; i < 10; i++) {
-           Turno_temp turnoTemp = new Turno_temp(tipoA.numeroTurnos, "Usuario "+i.toString(), "Calle falsa "+i.toString(), "Comidita"+i.toString());
+           Turno_temp turnoTemp = new Turno_temp(tipoA.numeroTurnos, "Usuario "+i.toString(), "Calle falsa "+i.toString(), "Comida"+i.toString());
            for (Integer j = 0; j < (Math.random() * (6 - 0) + 0); j++) {
                turnoTemp.anadirItem(j.toString());
            }
@@ -196,15 +195,22 @@ public class ManejoTurnos_temp  {
        }
 
        System.out.println("Tipos de colas de turnos: 0 = orden de llegada, 1 = numero de items.");
+       System.out.println("----------------------------");
        System.out.println("Cola a, tipo " + tipoA.getTipoOrden() + ":");
        tipoA.imprimirColaTurnos();
 
+       System.out.println("----------------------------");
        System.out.println("Cola b, tipo " + tipoB.getTipoOrden() + ":");
        tipoB.imprimirColaTurnos();
 
+       System.out.println("----------------------------");
        System.out.println("Cola c, tipo " + tipoC.getTipoOrden() + ":");
        tipoC.imprimirColaTurnos();
-    }
 
-    // Main
+       System.out.println("----------------------------\n----------------------------");
+       System.out.println("Cola b, tipo " + tipoB.getTipoOrden() + ", removiendo un turno completado:");
+       tipoB.getColaTurnos().poll();
+       tipoB.imprimirColaTurnos();
+
+    }
 }

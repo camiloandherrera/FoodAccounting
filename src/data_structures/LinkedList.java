@@ -1,7 +1,5 @@
 package data_structures;
 
-import java.util.*;
-
 // Implements the Node of LinkedList
 class Node {
     private Integer value; // Value to store in a Node
