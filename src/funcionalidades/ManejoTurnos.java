@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.PriorityQueue;
 
 // Clase que contiene los elementos de un pedido (turno)
-class Turno_temp {
+class Turno {
     protected Integer numeroTurno;
     protected String usuario;
     protected String direccion;
@@ -15,7 +15,7 @@ class Turno_temp {
     protected int numeroItems = 0;
 
     // Constructor
-    Turno_temp(Integer numeroTurno, String usuario, String direccion, String producto) {
+    Turno(Integer numeroTurno, String usuario, String direccion, String producto) {
         this.numeroTurno = numeroTurno;
         this.usuario = usuario;
         this.direccion = direccion;
@@ -69,8 +69,8 @@ class Turno_temp {
 }
 
 // Clase para crear un Comparador personalizado para los Turnos
-class comparaTurno implements Comparator<Turno_temp>{
-    protected Turno_temp turnoTemp;
+class comparaTurno implements Comparator<Turno>{
+    protected Turno turnoTemp;
     int tipoOrden;
 
     // Constructor
@@ -80,7 +80,7 @@ class comparaTurno implements Comparator<Turno_temp>{
 
     // Método para comparar
     @Override
-    public int compare(Turno_temp actual, Turno_temp otro) {
+    public int compare(Turno actual, Turno otro) {
         switch(tipoOrden) {
             case 0: // Comparar turnos por su número (orden de llegada)
                 return actual.getNumeroTurno() - otro.getNumeroTurno();
@@ -92,11 +92,11 @@ class comparaTurno implements Comparator<Turno_temp>{
     }
 }
 
-public class ManejoTurnos  {
+public class ManejoTurnos { // Manejado PROVISIONALMENTE por la estructura de la librería
     protected int numeroTurnos = 0; // Número de turnos totales
     protected int tipoOrden; // Para priorizar número de turnos vs tamaño del pedido
 
-    protected PriorityQueue <Turno_temp> colaTurnos; // Cola de Prioridad que almacenará los turnos
+    protected PriorityQueue <Turno> colaTurnos; // Cola de Prioridad que almacenará los turnos
     
 
     // Constructor
@@ -117,7 +117,7 @@ public class ManejoTurnos  {
     }  
 
     // Métodos
-    public void anadir(Turno_temp turno) {
+    public void anadir(Turno turno) {
         colaTurnos.add(turno);
         numeroTurnos++;
     }
@@ -125,10 +125,10 @@ public class ManejoTurnos  {
     public void remover() {
         colaTurnos.poll();
 
-        Turno_temp arr[] = null;
+        Turno arr[] = null;
         colaTurnos.toArray(arr);
 
-        PriorityQueue <Turno_temp> colaNueva = new PriorityQueue<Turno_temp>();
+        PriorityQueue <Turno> colaNueva = new PriorityQueue<Turno>();
         colaNueva.addAll(colaTurnos);
         colaTurnos = colaNueva;
         numeroTurnos--;
@@ -139,18 +139,18 @@ public class ManejoTurnos  {
         System.out.println("Turno raiz: " + colaTurnos.peek().getNumeroTurno());
 
         // Atraviesa la cola de prioridad, imprimiendo el valor de cada nodo
-        /*for (Turno_temp nodo : colaTurnos) {
+        /*for (Turno nodo : colaTurnos) {
             System.out.println("Turno " + nodo.getNumeroTurno() + " | Usuario: " + nodo.getUsuario() + " | Número de productos: " + nodo.getNumeroItems());
         }*/
 
-        PriorityQueue <Turno_temp> colaTemp = colaTurnos;
-        List <Turno_temp> listaCola = new LinkedList<Turno_temp>();
+        PriorityQueue <Turno> colaTemp = colaTurnos;
+        List <Turno> listaCola = new LinkedList<Turno>();
 
-        for (Turno_temp turnosTmp : colaTemp) {
+        for (Turno turnosTmp : colaTemp) {
             listaCola.add(turnosTmp);
         }
 
-        for (Turno_temp turnosTmp : listaCola) {
+        for (Turno turnosTmp : listaCola) {
             System.out.println("Turno : " + turnosTmp.getNumeroTurno() + " | Usuario: " + turnosTmp.getUsuario() + " | Número de productos: " + turnosTmp.getNumeroItems());
         }
     }
@@ -170,10 +170,10 @@ public class ManejoTurnos  {
         this.tipoOrden = tipoOrden;
     }
 
-    public PriorityQueue<Turno_temp> getColaTurnos() {
+    public PriorityQueue<Turno> getColaTurnos() {
         return colaTurnos;
     }
-    public void setColaTurnos(PriorityQueue<Turno_temp> colaTurnos) {
+    public void setColaTurnos(PriorityQueue<Turno> colaTurnos) {
         this.colaTurnos = colaTurnos;
     }
 
@@ -185,7 +185,7 @@ public class ManejoTurnos  {
        ManejoTurnos tipoC = new ManejoTurnos(2);
 
        for (Integer i = 0; i < 10; i++) {
-           Turno_temp turnoTemp = new Turno_temp(tipoA.numeroTurnos, "Usuario "+i.toString(), "Calle falsa "+i.toString(), "Comida"+i.toString());
+           Turno turnoTemp = new Turno(tipoA.numeroTurnos, "Usuario "+i.toString(), "Calle falsa "+i.toString(), "Comida"+i.toString());
            for (Integer j = 0; j < (Math.random() * (6 - 0) + 0); j++) {
                turnoTemp.anadirItem(j.toString());
            }
