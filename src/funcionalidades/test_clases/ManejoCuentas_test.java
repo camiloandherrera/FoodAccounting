@@ -1,10 +1,12 @@
-package funcionalidades;
+package funcionalidades.test_clases;
 
+import java.util.Random;
 import java.util.Scanner;
+import funcionalidades.*;
 import data_structures.LinkedList_String;
 
-class Usuario {
-    // Datos Usuario
+class Usuario_test {
+    // Datos Usuario_test
     protected String nombreDeUsuario;
     protected String contrasena;
     protected String email;
@@ -15,14 +17,14 @@ class Usuario {
     protected String direccion;
 
     // Datos de manejo
-    protected ManejoTurnos turnos;
-    protected ManejoDinero dinero;
-    protected Productos productos;
-    protected PilaCuentas cuentas;
-    protected ListaCuentas listaDeCuentas;
+    protected ManejoTurnos_test turnos;
+    protected ManejoDinero_test dinero;
+    protected Productos_test productos;
+    protected PilaCuentas_test cuentas;
+    protected ListaCuentas_test listaDeCuentas;
 
     // Constructor
-    public Usuario(String nombreDeUsuario, String contrasena, String email, String nombrePersona,
+    public Usuario_test(String nombreDeUsuario, String contrasena, String email, String nombrePersona,
                    String nombreEstablecimiento, String direccion, int tipoOrden) {
 
         // Establece los datos
@@ -34,11 +36,11 @@ class Usuario {
         this.direccion = direccion;
         
         // Inicializa los objetos de manejo
-        turnos = new ManejoTurnos(tipoOrden);
-        dinero = new ManejoDinero();
-        productos = new Productos();
-        cuentas = new PilaCuentas();
-        listaDeCuentas = new ListaCuentas();
+        turnos = new ManejoTurnos_test(tipoOrden);
+        dinero = new ManejoDinero_test();
+        productos = new Productos_test();
+        cuentas = new PilaCuentas_test();
+        listaDeCuentas = new ListaCuentas_test();
     }
 
     // Encapsulamiento
@@ -84,55 +86,55 @@ class Usuario {
         this.direccion = direccion;
     }
 
-    public ManejoTurnos getTurnos() {
+    public ManejoTurnos_test getTurnos() {
         return turnos;
     }
-    public void setTurnos(ManejoTurnos turnos) {
+    public void setTurnos(ManejoTurnos_test turnos) {
         this.turnos = turnos;
     }
 
-    public ManejoDinero getDinero() {
+    public ManejoDinero_test getDinero() {
         return dinero;
     }
-    public void setDinero(ManejoDinero dinero) {
+    public void setDinero(ManejoDinero_test dinero) {
         this.dinero = dinero;
     }
 
-    public Productos getProductos() {
+    public Productos_test getProductos() {
         return productos;
     }
-    public void setProductos(Productos productos) {
+    public void setProductos(Productos_test productos) {
         this.productos = productos;
     }
 
-    public PilaCuentas getCuentas() {
+    public PilaCuentas_test getCuentas() {
         return cuentas;
     }
-    public void setCuentas(PilaCuentas cuentas) {
+    public void setCuentas(PilaCuentas_test cuentas) {
         this.cuentas = cuentas;
     }
 
-    public ListaCuentas getListaDeCuentas() {
+    public ListaCuentas_test getListaDeCuentas() {
         return listaDeCuentas;
     }
-    public void setListaDeCuentas(ListaCuentas listaDeCuentas) {
+    public void setListaDeCuentas(ListaCuentas_test listaDeCuentas) {
         this.listaDeCuentas = listaDeCuentas;
     }
 }
 
 
-class ManejoCuentas {
+class ManejoCuentas_test {
     // LinkedList que almacenará los nombres de usuario creados
     LinkedList_String usernames = new LinkedList_String();
 
-    // LinkedHash (nodo) de la HashTable, similar a una LinkedList
-    class LinkedHash {
+    // LinkedHash_test (nodo) de la HashTable, similar a una LinkedList
+    class LinkedHash_test {
         String llave;
-        Usuario valor;
-        LinkedHash siguiente;
+        Usuario_test valor;
+        LinkedHash_test siguiente;
   
-        // Constructor de LinkedHash
-        LinkedHash(Usuario valor)
+        // Constructor de LinkedHash_test
+        LinkedHash_test(Usuario_test valor)
         {
             this.llave = valor.getNombreDeUsuario();
             this.valor = valor;
@@ -142,14 +144,14 @@ class ManejoCuentas {
   
     protected int tamanoTabla;
     protected int usuariosRegistrados;
-    protected LinkedHash[] tabla;
+    protected LinkedHash_test[] tabla;
   
-    // Constructor de ManejoCuentas
-    public ManejoCuentas(int tamanoTabla)
+    // Constructor de ManejoCuentas_test
+    public ManejoCuentas_test(int tamanoTabla)
     {
         usuariosRegistrados = 0;
         this.tamanoTabla = tamanoTabla;
-        tabla = new LinkedHash[tamanoTabla];
+        tabla = new LinkedHash_test[tamanoTabla];
   
         // Inicializa la tabla con valores nulos
         for (int i = 0; i < tamanoTabla; i++)
@@ -170,7 +172,7 @@ class ManejoCuentas {
     }
   
     // Obtiene el valor de una llave
-    public Usuario obtener(String llave)
+    public Usuario_test obtener(String llave)
     {   
         // Encuentra el valor de posición utilizando hash(llave) % tamaño de tabla
         int valor = (generarHash(llave) % tamanoTabla);
@@ -179,7 +181,7 @@ class ManejoCuentas {
             return null;
         // Sino, recorre las posiciones de la sublista en el nodo hasta encontrar el valor deseado
         else {
-            LinkedHash actual = tabla[valor];
+            LinkedHash_test actual = tabla[valor];
             while (actual != null && !actual.llave.equals(llave)) {
                 actual = actual.siguiente;
             }
@@ -194,16 +196,16 @@ class ManejoCuentas {
     }
   
     // Inserta un valor en una HashTable
-    public void insertar(Usuario valor)
+    public void insertar(Usuario_test valor)
     {
         int hash = (generarHash(valor.getNombreDeUsuario()) % tamanoTabla);
         // Si no encuentra una posición nula en la tabla, insertará allí el valor como "primer nodo" de la sublista de hashes
         if (tabla[hash] == null) {
-            tabla[hash] = new LinkedHash(valor);
+            tabla[hash] = new LinkedHash_test(valor);
         }
         // Si no, atraviesa los hashes existentes para verificar si existe un nodo con la llave dada
         else {
-            LinkedHash entry = tabla[hash];
+            LinkedHash_test entry = tabla[hash];
             while (entry.siguiente != null && !entry.llave.equals(valor.getNombreDeUsuario())) {
                 entry = entry.siguiente;
             }
@@ -211,23 +213,23 @@ class ManejoCuentas {
             if (entry.llave.equals(valor.getNombreDeUsuario())) {
                 entry.valor = valor;
             }
-            // Sino, crea un nuevo nodo de LinkedHash
+            // Sino, crea un nuevo nodo de LinkedHash_test
             else {
-                entry.siguiente = new LinkedHash(valor);
+                entry.siguiente = new LinkedHash_test(valor);
             }
         }
         usuariosRegistrados++;
     }
   
     // Remover un valor con una llave específica, realizando un lazy deletion (remover referencias del valor)
-    public void remover(Usuario nodo)
+    public void remover(Usuario_test nodo)
     {
         int valor = (generarHash(nodo.getNombreDeUsuario()) % tamanoTabla);
         
         // Si la posición no está vacía, busca el valor a eliminar en la sublista
         if (tabla[valor] != null) {
-            LinkedHash prev = null;
-            LinkedHash actual = tabla[valor];
+            LinkedHash_test prev = null;
+            LinkedHash_test actual = tabla[valor];
             // Recorre hasta el final de la sublista
             while (actual.siguiente != null && !actual.llave.equals(nodo.getNombreDeUsuario())) {
                 prev = actual;
@@ -264,13 +266,64 @@ class ManejoCuentas {
     public void imprimirTabla()
     {
         for (int i = 0; i < tamanoTabla; i++) {
-            LinkedHash actual = tabla[i];
+            LinkedHash_test actual = tabla[i];
             while (actual != null) {
                 System.out.println(
-                    "Lugar = " + actual.valor.getNombreEstablecimiento() + " " + "Usuario = " + actual.llave);
+                    "Lugar = " + actual.valor.getNombreEstablecimiento() + " " + "Usuario_test = " + actual.llave);
                 actual = actual.siguiente;
             }
         }
         System.out.println();
+    }
+
+    static final int LONGITUD_STRING_SALIDA = 5;
+    // Main debug
+    public static void main(String args[]) {
+        // Caracteres utilizados para la generación de strings aleatorios
+        String strCaracteresPermitidos = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+        // Inicializar Random
+        Random random = new Random();
+
+        // Datos a analizar en las pruebas
+        int DATOS_A_ANALIZAR = 10;
+
+        // Medir tiempo
+        long comienzoT, finalT;
+        comienzoT = System.currentTimeMillis();
+        ManejoCuentas_test users = new ManejoCuentas_test(DATOS_A_ANALIZAR);
+        for (int i = 0; i < DATOS_A_ANALIZAR; i++) {
+            String nombreDeUsuario = getStringAleatorio(strCaracteresPermitidos, random);
+            String contrasena = getStringAleatorio(strCaracteresPermitidos, random);
+            String nombrePersona = getStringAleatorio(strCaracteresPermitidos, random);
+            String email = getStringAleatorio(strCaracteresPermitidos, random);
+            String nombreEstablecimiento = getStringAleatorio(strCaracteresPermitidos, random);
+            String direccion = getStringAleatorio(strCaracteresPermitidos, random);
+
+            int tipoOrden = random.nextInt(2);
+            users.insertar(new Usuario_test(nombreDeUsuario, contrasena, email, nombrePersona, nombreEstablecimiento, direccion, tipoOrden));
+        }
+        finalT = System.currentTimeMillis();
+        System.out.println("La inserción de los datos tomó " + (finalT - comienzoT) + " ms");
+
+        long comienzoT2, finalT2;
+        comienzoT2 = System.currentTimeMillis();
+        for (int i = 0; i < DATOS_A_ANALIZAR; i++) {
+            users.obtener(getStringAleatorio(strCaracteresPermitidos, random));
+        }
+        finalT2 = System.currentTimeMillis();
+        System.out.println("La búsqueda de los datos tomó " + (finalT2 - comienzoT2) + " ms");
+    }
+
+    private static String getStringAleatorio(String strCaracteresPermitidos, Random random) {
+        StringBuilder sbStringAleatorio = new StringBuilder();
+        
+        for(int i = 0 ; i < LONGITUD_STRING_SALIDA; i++){
+            // Obtener número aleatorio entre 0 y la longitud del String
+            int intAleatorio = random.nextInt(strCaracteresPermitidos.length());
+            // Obtener un caracter aleatorio en el String y juntarlo en sbStringAleatorio
+            sbStringAleatorio.append( strCaracteresPermitidos.charAt(intAleatorio) );
+        }
+        return sbStringAleatorio.toString();
     }
 }

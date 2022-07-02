@@ -184,24 +184,29 @@ class ListaCuentas { // Una lista enlazada será utilizada para manejar las cuen
     }
 
     public void removerCola() {
-        NodoLista nodoAnterior = cola;
-        nodoAnterior.setSiguiente(null);
-
+    
         // No hacer nada si la lista está vacía
         if (cabeza == null) {
             System.out.println("Lista vacía\n");
             return;
         }
+        else if (cabeza != null && cabeza.getSiguiente() == null) {
+            System.out.println("Lista de un sólo nodo, removidas cabeza y cola\n");
+            cabeza = null;
+            cola = null;
+            tamanoLista--;
+            return;
+        }
         // Sino, recorrer hasta encontrar el nodo final, y removerlo; hacer el anterior  a este la nueva cola
         else {
-            NodoLista last = cabeza;
-            while(last.getSiguiente() != cola)
-                last = last.getSiguiente();
+            NodoLista penultimo = cabeza;
+            while(penultimo.getSiguiente().getSiguiente() != null)
+                penultimo = penultimo.getSiguiente();
 
-            last.setSiguiente(null); // Inserts the New NodoLista at the end
-            hacerCola(nodoAnterior);
+            penultimo.setSiguiente(null); // Inserts the New NodoLista at the end
+            hacerCola(penultimo);
+            tamanoLista--;
         }
-        tamanoLista--;
     }
 
     public void imprimirLista() {
@@ -248,74 +253,20 @@ class ListaCuentas { // Una lista enlazada será utilizada para manejar las cuen
     }
 }
 
-public class ManejoDinero {
+public class ManejoDinero{
 
-    public static void vaciarPila(PilaCuentas pila){
+    public void vaciarPila(PilaCuentas pila){
         while (pila.getRaiz() != null && !pila.estaVacia()) {
             pila.desapilar();
         }
     }
 
-    public static ListaCuentas vaciarLista(ListaCuentas lista) {
+    public ListaCuentas vaciarLista(ListaCuentas lista) {
         if (!lista.estaVacia())
             lista = new ListaCuentas();
 
         return lista;
     }
-
-    // Main debug
-    public static void main(String args[]) {
-        Scanner scTxT = new Scanner(System.in);
-        Scanner sc = new Scanner(System.in);
-
-        PilaCuentas cuentas = new PilaCuentas();
-        ListaCuentas listaDeCuentas = new ListaCuentas();
-
-        while (true){
-            System.out.println("\nCuenta Neta: " + cuentas.getValorNeto());
-            System.out.println("¿Qué desea hacer?");
-            System.out.println("1- Hacer una cuenta\n2- Deshacer última cuenta\n3- Imprimir cuentas hechas\n4- Vaciar cuentas\n5- Salir");
-            System.out.print("Selección: ");
-            int input = sc.nextInt();
-
-            switch(input)
-            {
-                case 1:
-                System.out.print("Escriba la cuenta a sumar (o restar): ");
-                int inputNum = sc.nextInt();
-                System.out.print("Escriba la descripción de la cuenta: ");
-                String inputDesc = scTxT.nextLine();
-                
-                
-                cuentas.apilar(inputNum);
-                listaDeCuentas.insertar(new Cuenta(inputNum, inputDesc));
-                break;
-
-                case 2:
-                cuentas.desapilar();
-                listaDeCuentas.removerCola();
-                break;
-
-                case 3:
-                listaDeCuentas.imprimirLista();
-                break;
-
-                case 4:
-                    vaciarPila(cuentas);
-                    listaDeCuentas = vaciarLista(listaDeCuentas);
-                break;
-
-                case 5:
-                sc.close();
-                scTxT.close();
-                return;
-
-                default:
-                break;
-            }
-        }
-    }
-    
 }
 
 

@@ -15,14 +15,12 @@ class Turno {
     protected int numeroItems = 0;
 
     // Constructor
-    Turno(Integer numeroTurno, String usuario, String direccion, String producto) {
+    Turno(Integer numeroTurno, String usuario, String direccion, String[] pedido, int numeroItems) {
         this.numeroTurno = numeroTurno;
         this.usuario = usuario;
         this.direccion = direccion;
-        this.pedido[0] = producto; // Todo turno debe crearse primero on un producto inicial
-
-        if (this.pedido[0] != null)
-            numeroItems++;
+        this.pedido = pedido; 
+        this.numeroItems = numeroItems;
     }
 
     // Métodos
@@ -125,9 +123,6 @@ public class ManejoTurnos { // Manejado PROVISIONALMENTE por la estructura de la
     public void remover() {
         colaTurnos.poll();
 
-        Turno arr[] = null;
-        colaTurnos.toArray(arr);
-
         PriorityQueue <Turno> colaNueva = new PriorityQueue<Turno>();
         colaNueva.addAll(colaTurnos);
         colaTurnos = colaNueva;
@@ -136,7 +131,12 @@ public class ManejoTurnos { // Manejado PROVISIONALMENTE por la estructura de la
 
     public void imprimirColaTurnos() {
         System.out.println("Número de turnos: " + numeroTurnos);
-        System.out.println("Turno raiz: " + colaTurnos.peek().getNumeroTurno());
+        try {
+            System.out.println("Turno raiz: " + colaTurnos.peek().getNumeroTurno());
+        }
+        catch (NullPointerException npe) {
+            System.out.println("¡No hay turno raíz, cola vacía!");
+        }
 
         // Atraviesa la cola de prioridad, imprimiendo el valor de cada nodo
         /*for (Turno nodo : colaTurnos) {
@@ -177,40 +177,4 @@ public class ManejoTurnos { // Manejado PROVISIONALMENTE por la estructura de la
         this.colaTurnos = colaTurnos;
     }
 
-    // Main (debug)
-    public static void main(String[] args) {
-        
-       ManejoTurnos tipoA = new ManejoTurnos(0);
-       ManejoTurnos tipoB = new ManejoTurnos(1);
-       ManejoTurnos tipoC = new ManejoTurnos(2);
-
-       for (Integer i = 0; i < 10; i++) {
-           Turno turnoTemp = new Turno(tipoA.numeroTurnos, "Usuario "+i.toString(), "Calle falsa "+i.toString(), "Comida"+i.toString());
-           for (Integer j = 0; j < (Math.random() * (6 - 0) + 0); j++) {
-               turnoTemp.anadirItem(j.toString());
-           }
-           tipoA.anadir(turnoTemp);
-           tipoB.anadir(turnoTemp);
-           tipoC.anadir(turnoTemp);
-       }
-
-       System.out.println("Tipos de colas de turnos: 0 = orden de llegada, 1 = numero de items.");
-       System.out.println("----------------------------");
-       System.out.println("Cola a, tipo " + tipoA.getTipoOrden() + ":");
-       tipoA.imprimirColaTurnos();
-
-       System.out.println("----------------------------");
-       System.out.println("Cola b, tipo " + tipoB.getTipoOrden() + ":");
-       tipoB.imprimirColaTurnos();
-
-       System.out.println("----------------------------");
-       System.out.println("Cola c, tipo " + tipoC.getTipoOrden() + ":");
-       tipoC.imprimirColaTurnos();
-
-       System.out.println("----------------------------\n----------------------------");
-       System.out.println("Cola b, tipo " + tipoB.getTipoOrden() + ", removiendo un turno completado:");
-       tipoB.getColaTurnos().poll();
-       tipoB.imprimirColaTurnos();
-
-    }
 }

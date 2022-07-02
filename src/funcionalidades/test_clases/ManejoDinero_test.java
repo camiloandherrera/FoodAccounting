@@ -30,7 +30,7 @@ class Cuenta {
     }
 }
 
-class PilaCuentas { // Una pila será utilizada para llevar cuentas de dinero neto (ganancia o adeudado)
+class PilaCuentas_test { // Una pila será utilizada para llevar cuentas de dinero neto (ganancia o adeudado)
     protected NodoPila raiz;
     protected Integer valorNeto = 0;
 
@@ -119,7 +119,7 @@ class PilaCuentas { // Una pila será utilizada para llevar cuentas de dinero ne
     }
 }
 
-class ListaCuentas { // Una lista enlazada será utilizada para manejar las cuentas
+class ListaCuentas_test { // Una lista enlazada será utilizada para manejar las cuentas
     protected int tamanoLista;
     protected NodoLista cabeza; 
     protected NodoLista cola;
@@ -156,7 +156,7 @@ class ListaCuentas { // Una lista enlazada será utilizada para manejar las cuen
     }
 
     // Constructor, lista vacía por defecto
-    public ListaCuentas() {
+    public ListaCuentas_test() {
         cabeza = null;
         cola = null;
 
@@ -252,15 +252,15 @@ class ListaCuentas { // Una lista enlazada será utilizada para manejar las cuen
 
 public class ManejoDinero_test {
 
-    public static void vaciarPila(PilaCuentas pila){
+    public static void vaciarPila(PilaCuentas_test pila){
         while (pila.getRaiz() != null && !pila.estaVacia()) {
             pila.desapilar();
         }
     }
 
-    public static ListaCuentas vaciarLista(ListaCuentas lista) {
+    public static ListaCuentas_test vaciarLista(ListaCuentas_test lista) {
         if (!lista.estaVacia())
-            lista = new ListaCuentas();
+            lista = new ListaCuentas_test();
 
         return lista;
     }
@@ -281,8 +281,8 @@ public class ManejoDinero_test {
         long comienzoT, finalT;
         comienzoT = System.currentTimeMillis();
 
-        PilaCuentas cuentas = new PilaCuentas();
-        ListaCuentas listaDeCuentas = new ListaCuentas();
+        PilaCuentas_test cuentas = new PilaCuentas_test();
+        ListaCuentas_test listaDeCuentas = new ListaCuentas_test();
         
         for (long i = 0; i < DATOS_A_ANALIZAR; i++) {
             int inputNum = (int)(Math.random() * (1000000 - 1000) + 100);

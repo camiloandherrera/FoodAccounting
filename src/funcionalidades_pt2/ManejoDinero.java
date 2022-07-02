@@ -1,4 +1,4 @@
-package funcionalidades;
+package funcionalidades_pt2;
 
 import java.util.Scanner;
 

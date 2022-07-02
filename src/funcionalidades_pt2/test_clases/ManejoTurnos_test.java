@@ -1,4 +1,4 @@
-package funcionalidades.test_clases;
+package funcionalidades_pt2.test_clases;
 
 import java.util.Comparator;
 import java.util.LinkedList;

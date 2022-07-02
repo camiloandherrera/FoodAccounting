@@ -20,7 +20,7 @@ class HashTable {
     protected int tamanoTabla;
     protected int tamanoActual;
     protected LinkedHash[] tabla;
-  
+
     // Constructor de HashTable
     public HashTable(int tamanoTabla)
     {
@@ -35,11 +35,6 @@ class HashTable {
   
 
     // Métodos
-    // Obtiene el número actual de pares valor-llave actuales en la tabla
-    public int getTamanoActual() {
-        return tamanoActual;
-    }
-  
     // Limpia (vacía) la tabla
     public void vaciar()
     {
@@ -150,5 +145,27 @@ class HashTable {
             }
         }
         System.out.println();
+    }
+
+    // Encapsulamiento
+    public int getTamanoTabla() {
+        return tamanoTabla;
+    }
+    public void setTamanoTabla(int tamanoTabla) {
+        this.tamanoTabla = tamanoTabla;
+    }
+
+    public int getTamanoActual() {
+        return tamanoActual;
+    }
+    public void setTamanoActual(int tamanoActual) {
+        this.tamanoActual = tamanoActual;
+    }
+
+    public LinkedHash[] getTabla() {
+        return tabla;
+    }
+    public void setTabla(LinkedHash[] tabla) {
+        this.tabla = tabla;
     }
 }
