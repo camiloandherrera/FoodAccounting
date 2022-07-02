@@ -286,7 +286,7 @@ class ManejoCuentas_test {
         Random random = new Random();
 
         // Datos a analizar en las pruebas
-        int DATOS_A_ANALIZAR = 10;
+        int DATOS_A_ANALIZAR = 100;
 
         // Medir tiempo
         long comienzoT, finalT;
